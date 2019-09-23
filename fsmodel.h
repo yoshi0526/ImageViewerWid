@@ -10,12 +10,13 @@ class FileSystemModel : public QFileSystemModel
 public:
     explicit FileSystemModel(QObject *parent = nullptr);
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
-    void addPics(const QPixmap &pixmap);
+    void addPic(const QPixmap &pixmap);
 
 private:
     QList<QPixmap> pixmaps;
-
     int gridSize;
+private slots:
+    void addPics();
 
 };
 
