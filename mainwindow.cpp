@@ -29,8 +29,15 @@ MainWindow::MainWindow(QWidget *parent)
     ui->treeView->setModel(fsmodel);
     ui->treeView->setRootIndex(fsmodel->index(prefix));
 
-    qDebug() << "fsmodel->rowCount " << fsmodel->rowCount() << "";
-    qDebug() << "fsmodel->columnCount " << fsmodel->columnCount() << "";
+    QModelIndex parentidx = fsmodel->index(prefix);
+    qDebug() << "fsmodel->rowCount " << fsmodel->rowCount(parentidx) << "";
+    qDebug() << "fsmodel->columnCount " << fsmodel->columnCount(parentidx) << "";
+
+    for(int row=0; row < 1; ++row){
+        QModelIndex index = fsmodel->index(row, 0, parentidx);
+        QString text = fsmodel->data(index, Qt::DisplayRole).toString();
+        qDebug() << text;
+    }
 
     // timer 10000
 }
@@ -46,6 +53,9 @@ void MainWindow::on_gridMinius_clicked()
     if(gridSize>30)
         gridSize /= 1.414;
     ui->listView->setIconSize(QSize(gridSize,gridSize));
+    QModelIndex parentidx = fsmodel->index(prefix);
+    qDebug() << "fsmodel->rowCount " << fsmodel->rowCount(parentidx) << "";
+    qDebug() << "fsmodel->columnCount " << fsmodel->columnCount(parentidx) << "";
 }
 
 void MainWindow::on_gridPlus_clicked()

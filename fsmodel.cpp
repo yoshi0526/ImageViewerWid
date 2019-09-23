@@ -30,3 +30,16 @@ QVariant FileSystemModel::data(const QModelIndex &index, int role) const
 //    return QVariant();
     return QFileSystemModel::data(index, role);
 }
+
+void FileSystemModel::addPics(const QPixmap &pixmap)
+{
+    if (!pixmaps.isEmpty()) {
+        beginRemoveRows(QModelIndex(), 0, pixmaps.size() - 1);
+        pixmaps.clear();
+        endRemoveRows();
+    }
+    QPixmap image = pixmap.scaled(30,30);
+    beginInsertRows(QModelIndex(), 0, 0);
+    pixmaps.insert(0, pixmap);
+    endInsertRows();
+}
