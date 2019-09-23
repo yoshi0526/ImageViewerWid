@@ -24,7 +24,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->listView->setSpacing(50);
     ui->listView->setResizeMode(QListView::Adjust);
 
+    ui->tableView->setModel(fsmodel);
+    ui->tableView->setRootIndex(fsmodel->index(prefix));
+    ui->treeView->setModel(fsmodel);
+    ui->treeView->setRootIndex(fsmodel->index(prefix));
+
     qDebug() << "fsmodel->rowCount " << fsmodel->rowCount() << "";
+    qDebug() << "fsmodel->columnCount " << fsmodel->columnCount() << "";
 
     // timer 10000
 }

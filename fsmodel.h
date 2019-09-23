@@ -5,9 +5,16 @@
 
 class FileSystemModel : public QFileSystemModel
 {
+    Q_OBJECT
+
 public:
-    FileSystemModel(QObject *parent = nullptr);
+    explicit FileSystemModel(QObject *parent = nullptr);
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+
+private:
+    QList<QPixmap> pixmaps;
+
+    int gridSize;
 
 };
 
