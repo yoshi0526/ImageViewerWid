@@ -46,9 +46,14 @@ void FileSystemModel::addPic(const QPixmap &pixmap)
 void FileSystemModel::addPics()
 {
     qDebug() << "add Pics" ;
+    qDebug() << "rowCount" << rowCount();
+    QImageReader reader;
     for (int i = 0; i < rowCount(this->index(rootPath())); i++) {
-        qDebug() << " i:" << i;
-        QPixmap apixmap;
-//        addPic(apixmap);
+        QString filePath = rootPath() + "/" + index(i,0,index(rootPath())).data().toString();
+        qDebug() << " i:" << i << " filePath" << filePath;
+        reader.setFileName(filePath);
+//        QImage icon(64,64,QImage::Format_RGB32);
+//        reader.read(&icon);
+//        addPic(reader.read());
     }
 }
