@@ -7,37 +7,27 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 //    , prefix("file:../openimage/validation")
     , prefix("../openimage/validation")
-    , gridSize(300)
+    , gridSize(200)
 {
     ui->setupUi(this);
     resize(640,480);
 
     // File load
     fsmodel = new FileSystemModel;
+    fsmodel->setGridSize(gridSize);
     fsmodel->setRootPath(prefix);
 
     ui->listView->setModel(fsmodel);
-    ui->listView->setRootIndex(fsmodel->index(prefix));
     ui->listView->setViewMode(QListView::IconMode);
     ui->listView->setIconSize(QSize(gridSize,gridSize));
     ui->listView->setDragEnabled(false);
     ui->listView->setSpacing(50);
-    ui->listView->setResizeMode(QListView::Adjust);
+//    ui->listView->setResizeMode(QListView::Fixed);
 
-    ui->tableView->setModel(fsmodel);
-    ui->tableView->setRootIndex(fsmodel->index(prefix));
-    ui->treeView->setModel(fsmodel);
-    ui->treeView->setRootIndex(fsmodel->index(prefix));
-
-    QModelIndex parentidx = fsmodel->index(prefix);
-    qDebug() << "fsmodel->rowCount " << fsmodel->rowCount(parentidx) << "";
-    qDebug() << "fsmodel->columnCount " << fsmodel->columnCount(parentidx) << "";
-
-    for(int row=0; row < 1; ++row){
-        QModelIndex index = fsmodel->index(row, 0, parentidx);
-        QString text = fsmodel->data(index, Qt::DisplayRole).toString();
-        qDebug() << text;
-    }
+//    ui->tableView->setModel(fsmodel);
+//    ui->tableView->setRootIndex(fsmodel->index(prefix));
+//    ui->treeView->setModel(fsmodel);
+//    ui->treeView->setRootIndex(fsmodel->index(prefix));
 
     // timer 10000
 }
@@ -53,13 +43,12 @@ void MainWindow::on_gridMinius_clicked()
     if(gridSize>30)
         gridSize /= 1.414;
     ui->listView->setIconSize(QSize(gridSize,gridSize));
-    QModelIndex parentidx = fsmodel->index(prefix);
-    qDebug() << "fsmodel->rowCount " << fsmodel->rowCount(parentidx) << "";
-    qDebug() << "fsmodel->columnCount " << fsmodel->columnCount(parentidx) << "";
+    fsmodel->setGridSize(gridSize);
 }
 
 void MainWindow::on_gridPlus_clicked()
 {
     gridSize *= 1.414;
+    fsmodel->setGridSize(gridSize);
     ui->listView->setIconSize(QSize(gridSize,gridSize));
 }

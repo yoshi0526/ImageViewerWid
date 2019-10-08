@@ -1,59 +1,66 @@
 #include "fsmodel.h"
 #include<QDebug>
+#include <QVector>
 #include <QImageReader>
 
-FileSystemModel::FileSystemModel(QObject *parent): QFileSystemModel(parent)
+FileSystemModel::FileSystemModel(QObject *parent): QAbstractListModel(parent)
 {
-    connect(this, &FileSystemModel::directoryLoaded, this, &FileSystemModel::addPics);
+    m_fileNames.clear();
+
+}
+
+FileSystemModel::~FileSystemModel()
+{
+
 }
 
 QVariant FileSystemModel::data(const QModelIndex &index, int role) const
 {
-
     if(!index.isValid())
         return QVariant();
 
-//    if(role==QFileSystemModel::FileNameRole && index.column()==0){
-//        QString name = fileName(index);
-//        return name;
-//    }
-//    if(role==Qt::DisplayRole){
+    if(role==Qt::DecorationRole && index.column()==0x0 ){
+//            qDebug() << "role DecorationRole index.row() " << index.row();
+            if(m_images.count()>index.row())
+                return m_images.at(index.row());
+            else
+                QVariant();
+    } else {
+        return QVariant();
+    }
 
-//        QString aname = filePath(index);
-//        QImageReader reader(aname);
-//        reader.setAutoTransform(true);
-//        const QImage newImage = reader.read();
-//        return reader.size(); // aname;
-//          return QVariant();
-//    }
-//    return QVariant();
-    return QFileSystemModel::data(index, role);
 }
 
-void FileSystemModel::addPic(const QPixmap &pixmap)
+void FileSystemModel::addPic(QImage image)
 {
-    if (!pixmaps.isEmpty()) {
-        beginRemoveRows(QModelIndex(), 0, pixmaps.size() - 1);
-        pixmaps.clear();
-        endRemoveRows();
-    }
-    QPixmap image = pixmap.scaled(30,30);
     beginInsertRows(QModelIndex(), 0, 0);
-    pixmaps.insert(0, pixmap);
+    m_images.insert(0, image);
     endInsertRows();
+    qDebug() << "addPic " << m_images.count();
+}
+
+void FileSystemModel::setRootPath(QString path)
+{
+    m_rootPath = path;
+}
+
+int FileSystemModel::columnCount(const QModelIndex &parent) const
+{
+    return 5;
+}
+
+QModelIndex FileSystemModel::index(int row, int column, const QModelIndex &parent) const
+{
+    return QModelIndex();
+}
+
+int FileSystemModel::rowCount(const QModelIndex &parent) const
+{
+    return 1;
 }
 
 void FileSystemModel::addPics()
 {
     qDebug() << "add Pics" ;
-    qDebug() << "rowCount" << rowCount();
-    QImageReader reader;
-    for (int i = 0; i < rowCount(this->index(rootPath())); i++) {
-        QString filePath = rootPath() + "/" + index(i,0,index(rootPath())).data().toString();
-        qDebug() << " i:" << i << " filePath" << filePath;
-        reader.setFileName(filePath);
-//        QImage icon(64,64,QImage::Format_RGB32);
-//        reader.read(&icon);
-//        addPic(reader.read());
-    }
+
 }

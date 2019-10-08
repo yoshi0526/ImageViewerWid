@@ -1,20 +1,27 @@
 #ifndef FILESYSTEMMODEL_H
 #define FILESYSTEMMODEL_H
 
-#include <QFileSystemModel>
+#include <QAbstractListModel>
 
-class FileSystemModel : public QFileSystemModel
+class FileSystemModel : public QAbstractListModel
 {
     Q_OBJECT
 
 public:
     explicit FileSystemModel(QObject *parent = nullptr);
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
-    void addPic(const QPixmap &pixmap);
-
+    ~FileSystemModel()  override;
+    QVariant data(const QModelIndex &index, int role) const override;
+    void addPic(QImage image);
+    void setGridSize(int size){gridSize = size;}
+    void setRootPath(QString path);
+    int columnCount(const QModelIndex &parent) const override;
+    QModelIndex index(int row, int column = 0, const QModelIndex &parent = QModelIndex()) const override;
+    int rowCount(const QModelIndex &parent) const override;
 private:
-    QList<QPixmap> pixmaps;
+    QVector<QImage> m_images;
+    QVector<QString> m_fileNames;
     int gridSize;
+    QString m_rootPath;
 private slots:
     void addPics();
 
