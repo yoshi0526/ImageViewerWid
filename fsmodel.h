@@ -12,8 +12,6 @@ public:
     ~FileSystemModel()  override;
 
     QVariant data(const QModelIndex &index, int role) const override;
-    QModelIndex index(int row, int column = 0, const QModelIndex &parent = QModelIndex()) const override;
-    int columnCount(const QModelIndex &parent) const override;
     int rowCount(const QModelIndex &parent) const override;
 
     void setGridSize(int size){gridSize = size;}

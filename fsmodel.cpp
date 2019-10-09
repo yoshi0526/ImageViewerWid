@@ -37,16 +37,6 @@ void FileSystemModel::setRootPath(QString path)
     addPics();
 }
 
-int FileSystemModel::columnCount(const QModelIndex &parent) const
-{
-    return 1;
-}
-
-QModelIndex FileSystemModel::index(int row, int column, const QModelIndex &parent) const
-{
-    return QModelIndex();
-}
-
 int FileSystemModel::rowCount(const QModelIndex &parent) const
 {
     return m_images.count();
