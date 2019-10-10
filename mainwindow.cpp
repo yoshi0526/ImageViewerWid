@@ -5,8 +5,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-//    , prefix("file:../openimage/validation")
-    , prefix("../openimage/validation")
+    , prefix("../openimage/validation_s")
     , gridSize(200)
 {
     ui->setupUi(this);
@@ -18,16 +17,11 @@ MainWindow::MainWindow(QWidget *parent)
     fsmodel->setRootPath(prefix);
 
     ui->listView->setModel(fsmodel);
-    ui->listView->setViewMode(QListView::IconMode);
+    ui->listView->setViewMode(QListView::IconMode); // QListView::IconMode);
     ui->listView->setIconSize(QSize(gridSize,gridSize));
     ui->listView->setDragEnabled(false);
     ui->listView->setSpacing(50);
 //    ui->listView->setResizeMode(QListView::Fixed);
-
-//    ui->tableView->setModel(fsmodel);
-//    ui->tableView->setRootIndex(fsmodel->index(prefix));
-//    ui->treeView->setModel(fsmodel);
-//    ui->treeView->setRootIndex(fsmodel->index(prefix));
 
     // timer 10000
 }
