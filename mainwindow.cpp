@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->listView->setViewMode(QListView::IconMode); // QListView::IconMode);
     ui->listView->setIconSize(QSize(gridSize,gridSize));
     ui->listView->setDragEnabled(false);
-    ui->listView->setSpacing(50);
+    ui->listView->setSpacing(gridSize/10);
 //    ui->listView->setResizeMode(QListView::Fixed);
 
     // timer 10000
@@ -38,11 +38,14 @@ void MainWindow::on_gridMinius_clicked()
         gridSize /= 1.414;
     ui->listView->setIconSize(QSize(gridSize,gridSize));
     fsmodel->setGridSize(gridSize);
+    int space = gridSize/10 > 20 ? 20:gridSize/10;
+    ui->listView->setSpacing(space);
 }
 
 void MainWindow::on_gridPlus_clicked()
 {
     gridSize *= 1.414;
-    fsmodel->setGridSize(gridSize);
     ui->listView->setIconSize(QSize(gridSize,gridSize));
-}
+    fsmodel->setGridSize(gridSize);
+    int space = gridSize/10 > 20 ? 20:gridSize/10;
+    ui->listView->setSpacing(space);}
