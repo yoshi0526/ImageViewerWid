@@ -3,6 +3,7 @@
 
 #include <QAbstractListModel>
 #include <QPixmap>
+#include "csvparser.h"
 
 class FileSystemModel : public QAbstractListModel
 {
@@ -24,7 +25,6 @@ private:
     QString m_rootPath;
     void addPics();
     void addPic(int i);
-
 };
 
 #endif // FILESYSTEMMODEL_H

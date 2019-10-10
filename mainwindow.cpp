@@ -5,8 +5,9 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , prefix("../openimage/validation_s")
-    , gridSize(200)
+//    , prefix("../openimage/validation_s")
+    , prefix("../openimage/validation")
+    , gridSize(300)
 {
     ui->setupUi(this);
     resize(640,480);
@@ -15,6 +16,8 @@ MainWindow::MainWindow(QWidget *parent)
     fsmodel = new FileSystemModel;
     fsmodel->setGridSize(gridSize);
     fsmodel->setRootPath(prefix);
+
+    bboxes = new BBoxModel;
 
     ui->listView->setModel(fsmodel);
     ui->listView->setViewMode(QListView::IconMode); // QListView::IconMode);

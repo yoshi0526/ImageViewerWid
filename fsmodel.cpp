@@ -1,7 +1,10 @@
 #include "fsmodel.h"
-#include<QDebug>
+#include <QDebug>
 #include <QVector>
+#include <QPainter>
 #include <QDir>
+
+Q_GLOBAL_STATIC(CSVParser, csvParser)
 
 FileSystemModel::FileSystemModel(QObject *parent): QAbstractListModel(parent)
 {
@@ -13,13 +16,28 @@ QVariant FileSystemModel::data(const QModelIndex &index, int role) const
 {
     if(!index.isValid())
         return QVariant();
-    if(index.row()>= m_names.size())
+    if(index.row()>= m_names.size())            // 20000 pics are skipped
         return QVariant();
 
     if(role == Qt::DisplayRole){
         return QVariant(); // m_names.at(index.row());
     } else if (role == Qt::DecorationRole) {
-        return m_pixes.at(index.row()).scaled(QSize(gridSize,gridSize),Qt::KeepAspectRatio);
+        QPixmap newImage; // (QSize(gridSize,gridSize));
+        if(!newImage.load(m_rootPath+ "/" + m_names.at(index.row())))
+            qDebug() << "cannot load file:" << m_rootPath+ "/" + m_names.at(index.row());
+        const BBoxInfo *bboxes = csvParser->getBbox(m_names.at(index.row()));
+        if(bboxes!=nullptr){
+            QPainter painter(&newImage);
+            for(int i=0; i < bboxes->rects()->count();i++){
+                QPen pen; pen.setColor("red"); pen.setWidth(5);
+                painter.setPen(pen);
+                painter.drawRect(bboxes->rects()->at(i)->x()*newImage.width(),
+                                 bboxes->rects()->at(i)->y()*newImage.height(),
+                                 bboxes->rects()->at(i)->width()*newImage.width(),
+                                 bboxes->rects()->at(i)->height()*newImage.height());
+            }
+        }
+        return newImage.scaled(QSize(gridSize,gridSize),Qt::KeepAspectRatio);
     }else
         return QVariant();
 }
@@ -54,9 +72,7 @@ void FileSystemModel::addPics()
 
     int i=0;
     foreach (QString fileName, imageList) {
-//        qDebug() << fileName << i;
         m_names.insert(i,fileName);
-        addPic(i);
         i++;
     }
 
