@@ -5,9 +5,9 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-//    , prefix("file:../openimage/validation")
+//    , prefix("../openimage/validation_s")
     , prefix("../openimage/validation")
-    , gridSize(200)
+    , gridSize(300)
 {
     ui->setupUi(this);
     resize(640,480);
@@ -17,17 +17,14 @@ MainWindow::MainWindow(QWidget *parent)
     fsmodel->setGridSize(gridSize);
     fsmodel->setRootPath(prefix);
 
+    bboxes = new BBoxModel;
+
     ui->listView->setModel(fsmodel);
-    ui->listView->setViewMode(QListView::IconMode);
+    ui->listView->setViewMode(QListView::IconMode); // QListView::IconMode);
     ui->listView->setIconSize(QSize(gridSize,gridSize));
     ui->listView->setDragEnabled(false);
-    ui->listView->setSpacing(50);
+    ui->listView->setSpacing(gridSize/10);
 //    ui->listView->setResizeMode(QListView::Fixed);
-
-//    ui->tableView->setModel(fsmodel);
-//    ui->tableView->setRootIndex(fsmodel->index(prefix));
-//    ui->treeView->setModel(fsmodel);
-//    ui->treeView->setRootIndex(fsmodel->index(prefix));
 
     // timer 10000
 }
@@ -44,11 +41,14 @@ void MainWindow::on_gridMinius_clicked()
         gridSize /= 1.414;
     ui->listView->setIconSize(QSize(gridSize,gridSize));
     fsmodel->setGridSize(gridSize);
+    int space = gridSize/10 > 20 ? 20:gridSize/10;
+    ui->listView->setSpacing(space);
 }
 
 void MainWindow::on_gridPlus_clicked()
 {
     gridSize *= 1.414;
-    fsmodel->setGridSize(gridSize);
     ui->listView->setIconSize(QSize(gridSize,gridSize));
-}
+    fsmodel->setGridSize(gridSize);
+    int space = gridSize/10 > 20 ? 20:gridSize/10;
+    ui->listView->setSpacing(space);}
