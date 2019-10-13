@@ -71,7 +71,7 @@ void FileSystemModel::fetchMore(const QModelIndex &parent)
 {
     Q_UNUSED(parent)
     int reminder = m_names.count() - fileCount;
-    int itemsToFetch = qMin(100,reminder);
+    int itemsToFetch = qMin(10,reminder);
 
     if(itemsToFetch <=0)
         return;

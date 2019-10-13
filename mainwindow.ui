@@ -28,6 +28,9 @@
       <property name="horizontalScrollBarPolicy">
        <enum>Qt::ScrollBarAsNeeded</enum>
       </property>
+      <property name="batchSize">
+       <number>1000</number>
+      </property>
      </widget>
     </item>
     <item>
