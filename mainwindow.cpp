@@ -5,7 +5,6 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-//    , prefix("../openimage/validation_s")
     , prefix("../openimage/validation")
     , gridSize(300)
 {
@@ -20,13 +19,13 @@ MainWindow::MainWindow(QWidget *parent)
     bboxes = new BBoxModel;
 
     ui->listView->setModel(fsmodel);
+    ui->listView->setLayoutMode(QListView::Batched);
     ui->listView->setViewMode(QListView::IconMode); // QListView::IconMode);
     ui->listView->setIconSize(QSize(gridSize,gridSize));
     ui->listView->setDragEnabled(false);
     ui->listView->setSpacing(gridSize/10);
 //    ui->listView->setResizeMode(QListView::Fixed);
 
-    // timer 10000
 }
 
 MainWindow::~MainWindow()

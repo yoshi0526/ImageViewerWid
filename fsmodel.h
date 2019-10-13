@@ -18,13 +18,16 @@ public:
     void setGridSize(int size){gridSize = size;}
     void setRootPath(QString path);
 
+protected:
+    bool canFetchMore(const QModelIndex &parent) const override;
+    void fetchMore(const QModelIndex &parent) override;
+
 private:
     QVector<QString> m_names;
     QVector<QPixmap> m_pixes;
     int gridSize;
+    int fileCount;
     QString m_rootPath;
-    void addPics();
-    void addPic(int i);
 };
 
 #endif // FILESYSTEMMODEL_H
